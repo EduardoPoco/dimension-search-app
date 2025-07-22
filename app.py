@@ -19,7 +19,12 @@ dim1 = st.number_input("Dimensão 1", min_value=0.0, step=0.1, format="%.2f")
 dim2 = st.number_input("Dimensão 2 (opcional)", min_value=0.0, step=0.1, format="%.2f")
 tolerance = st.slider("Tolerância (± mm)", min_value=0.0, max_value=5.0, value=0.5)
 
+# Dimension columns to search
+dim_cols = ["Dimension1", "Dimension2", "Dimension3"]
 
+def within_tolerance(value, target):
+    return abs(value - target) <= tolerance
+    
 if st.button("🔍 Procurar peças correspondentes"):
     results = []
 
