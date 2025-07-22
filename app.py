@@ -61,7 +61,7 @@ if st.button("🔍 Procurar peças correspondentes"):
 
     if results:
         result_df = pd.DataFrame(results)
-        st.write("Columns in result dataframe:", result_df.columns.tolist())  # Debugging line
+        # st.write("Columns in result dataframe:", result_df.columns.tolist())  # Debugging line
     
         display_cols = [col for col in ["Reference", "Dimension1", "Dimension2", "Dimension3", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário"] if col in result_df.columns]
         
