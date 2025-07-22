@@ -21,7 +21,7 @@ st.markdown("Preencha alguma **1, 2 ou 3 dimensões** para encontrar as peças e
 
 dim1 = st.number_input("Dimensão 1", min_value=0.0, step=0.1, format="%.0f")
 dim2 = st.number_input("Dimensão 2 (opcional)", min_value=0.0, step=0.1, format="%.0f")
-tolerance = st.slider("Tolerância (± mm)", min_value=0.0, max_value=5.0, value=1)
+tolerance = st.slider("Tolerância (± mm)", min_value=0.0, max_value=5.0, value=1.0)
 
 # Dimension columns to search
 dim_cols = ["Dimension1", "Dimension2", "Dimension3"]
