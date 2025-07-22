@@ -14,7 +14,7 @@ df = pd.read_excel("parts.xlsx", sheet_name="Sheet1")
 
 #df = load_data()
 
-st.write("All columns in Excel loaded:", df.columns.tolist())
+# st.write("All columns in Excel loaded:", df.columns.tolist()) # Debug
 
 st.markdown("Preencha alguma **1, 2 ou 3 dimensões** para encontrar as peças em falta:")
 
@@ -63,7 +63,7 @@ if st.button("🔍 Procurar peças correspondentes"):
         result_df = pd.DataFrame(results)
         st.write("Columns in result dataframe:", result_df.columns.tolist())  # Debugging line
     
-        display_cols = [col for col in ["Reference", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário", "Dimension1", "Dimension2", "Dimension3"] if col in result_df.columns]
+        display_cols = [col for col in ["Reference", "Dimension1", "Dimension2", "Dimension3", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário"] if col in result_df.columns]
         
         st.success(f"✅ Encontrei {len(result_df)} peça(s) correspondente(s):")
         st.dataframe(result_df[display_cols])
