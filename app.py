@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.image("logo.svg", width=200)
+st.image("logo.svg", width=300)
 st.set_page_config(page_title="3D Part Finder", layout="centered")
 
 st.title("🔍 Procura peças com 1, 2 ou 3 Dimensões")
