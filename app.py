@@ -10,7 +10,10 @@ st.title("🔍 Procura peças com 1, 2 ou 3 Dimensões")
 def load_data():
     return pd.read_excel("parts.xlsx")  # Make sure this file exists in GitHub
 
-df = load_data()
+df = pd.read_excel("parts.xlsx", sheet_name="Sheet1")
+
+#df = load_data()
+
 st.write("All columns in Excel loaded:", df.columns.tolist())
 
 st.markdown("Preencha alguma **1, 2 ou 3 dimensões** para encontrar as peças em falta:")
