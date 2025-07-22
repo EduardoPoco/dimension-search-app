@@ -12,29 +12,51 @@ def load_data():
 
 df = load_data()
 
-st.markdown("Enter any **1, 2 or 3 dimensions** to find matching parts:")
+st.markdown("Preencha alguma **1, 2 ou 3 dimensões** para encontrar as peças em falta:")
 
-dim1 = st.number_input("Dimensão 1 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
-dim2 = st.number_input("Dimensão 2 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
-dim3 = st.number_input("Dimensão 3 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
 
+dim1 = st.number_input("Dimensão 1", min_value=0.0, step=0.1, format="%.2f")
+dim2 = st.number_input("Dimensão 2 (opcional)", min_value=0.0, step=0.1, format="%.2f")
 tolerance = st.slider("Tolerância (± mm)", min_value=0.0, max_value=5.0, value=0.5)
 
+
 if st.button("🔍 Procurar peças correspondentes"):
-    query = pd.Series([True] * len(df))  # Start with all rows
+    results = []
 
-    if dim1 > 0:
-        query &= df["Dimension1"].between(dim1 - tolerance, dim1 + tolerance)
-    if dim2 > 0:
-        query &= df["Dimension2"].between(dim2 - tolerance, dim2 + tolerance)
-    if dim3 > 0:
-        query &= df["Dimension3"].between(dim3 - tolerance, dim3 + tolerance)
+    for _, row in df.iterrows():
+        values = [row[col] for col in dim_cols]
+        matched_indices = []
 
-    matches = df[query]
+        # Try to match dim1
+        dim1_match = None
+        for i, v in enumerate(values):
+            if within_tolerance(v, dim1):
+                dim1_match = i
+                matched_indices.append(i)
+                break
 
-    if not matches.empty:
-        st.success(f"✅ Encontrei {len(matches)} peça(s) correspondente(s):")
-        st.dataframe(matches)
+        # Try to match dim2 in a different column
+        dim2_match = None
+        if dim2 > 0:
+            for i, v in enumerate(values):
+                if i not in matched_indices and within_tolerance(v, dim2):
+                    dim2_match = i
+                    matched_indices.append(i)
+                    break
+
+        # If dim2 was not filled, only check dim1
+        if dim1 > 0 and dim2 == 0 and dim1_match is not None:
+            results.append(row)
+        elif dim1 > 0 and dim2 > 0 and dim1_match is not None and dim2_match is not None:
+            results.append(row)
+
+    if results:
+        result_df = pd.DataFrame(results)
+        display_cols = ["Reference", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário", "Dimension1", "Dimension2", "Dimension3"]
+        st.success(f"✅ Encontrei {len(result_df)} peça(s) correspondente(s):")
+        st.dataframe(result_df[display_cols])
     else:
         st.warning("❌ Nenhuma peça encontrada. Tente ajustar a tolerância.")
+
+    
 
