@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+st.image("logo.svg", width=200)
 st.set_page_config(page_title="3D Part Finder", layout="centered")
 
-st.title("🔍 Part Finder by 1, 2 or 3 Dimensions")
+st.title("🔍 Procura peças com 1, 2 ou 3 Dimensões")
 
 @st.cache_data
 def load_data():
@@ -13,13 +14,13 @@ df = load_data()
 
 st.markdown("Enter any **1, 2 or 3 dimensions** to find matching parts:")
 
-dim1 = st.number_input("Dimension 1 (leave 0 if unknown)", min_value=0.0, step=0.1, format="%.2f")
-dim2 = st.number_input("Dimension 2 (leave 0 if unknown)", min_value=0.0, step=0.1, format="%.2f")
-dim3 = st.number_input("Dimension 3 (leave 0 if unknown)", min_value=0.0, step=0.1, format="%.2f")
+dim1 = st.number_input("Dimensão 1 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
+dim2 = st.number_input("Dimensão 2 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
+dim3 = st.number_input("Dimensão 3 (coloca 0 se desconhecida)", min_value=0.0, step=0.1, format="%.2f")
 
-tolerance = st.slider("Tolerance (± mm)", min_value=0.0, max_value=5.0, value=0.5)
+tolerance = st.slider("Tolerância (± mm)", min_value=0.0, max_value=5.0, value=0.5)
 
-if st.button("🔍 Find Matching Parts"):
+if st.button("🔍 Procurar peças correspondentes"):
     query = pd.Series([True] * len(df))  # Start with all rows
 
     if dim1 > 0:
@@ -32,8 +33,8 @@ if st.button("🔍 Find Matching Parts"):
     matches = df[query]
 
     if not matches.empty:
-        st.success(f"✅ Found {len(matches)} matching part(s):")
+        st.success(f"✅ Encontrei {len(matches)} peça(s) correspondente(s):")
         st.dataframe(matches)
     else:
-        st.warning("❌ No matching parts found. Try adjusting the dimensions or tolerance.")
+        st.warning("❌ Nenhuma peça encontrada. Tente ajustar a tolerância.")
 
