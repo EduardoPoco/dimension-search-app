@@ -11,6 +11,7 @@ def load_data():
     return pd.read_excel("parts.xlsx")  # Make sure this file exists in GitHub
 
 df = load_data()
+st.write("All columns in Excel loaded:", df.columns.tolist())
 
 st.markdown("Preencha alguma **1, 2 ou 3 dimensões** para encontrar as peças em falta:")
 
