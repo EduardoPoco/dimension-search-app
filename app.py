@@ -57,11 +57,15 @@ if st.button("🔍 Procurar peças correspondentes"):
 
     if results:
         result_df = pd.DataFrame(results)
-        display_cols = ["Reference", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário", "Dimension1", "Dimension2", "Dimension3"]
+        st.write("Columns in result dataframe:", result_df.columns.tolist())  # Debugging line
+    
+        display_cols = [col for col in ["Reference", "Sub-Obra", "Descrição", "Quantidade", "Peso unitário", "Dimension1", "Dimension2", "Dimension3"] if col in result_df.columns]
+        
         st.success(f"✅ Encontrei {len(result_df)} peça(s) correspondente(s):")
         st.dataframe(result_df[display_cols])
     else:
         st.warning("❌ Nenhuma peça encontrada. Tente ajustar a tolerância.")
+    
 
     
 
